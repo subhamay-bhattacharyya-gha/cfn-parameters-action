@@ -14,8 +14,8 @@ function run() {
     const stackPrefix = configData["stack-prefix"];
     const stackSuffix = configData["stack-suffix"];
     const templatePath = configData["template-path"];
-    const randomString = ""
-    const stackName = `${projectName}-${stackPrefix}-${stackSuffix}`;
+    let randomString = ""
+    let stackName = `${projectName}-${stackPrefix}-${stackSuffix}`;
     if (isCiBuild) {
         randomString = `${Math.random().toString(36).substring(2, 7)}`;
         stackName = `${projectName}-${stackPrefix}-${stackSuffix}-${randomString}`
