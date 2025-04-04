@@ -13,6 +13,10 @@ inputs:
   environment:
     description: 'Target environment name (devl, test, prod)'
     required: true
+  ci-build:
+    description: 'Is this a CI build? (true/false)'
+    required: true
+    default: 'false'
 
 outputs:
   parameters:

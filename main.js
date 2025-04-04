@@ -5,6 +5,7 @@ function run() {
   try {
     const configFile = core.getInput("config-file");
     const environment = core.getInput("environment");
+    const isCiBuild = core.getInput("ci-build") === "true";
 
     const configData = JSON.parse(fs.readFileSync(configFile, "utf8"));
 
@@ -13,8 +14,13 @@ function run() {
     const stackPrefix = configData["stack-prefix"];
     const stackSuffix = configData["stack-suffix"];
     const templatePath = configData["template-path"];
-    const randomString = Math.random().toString(36).substring(2, 7); // Generate random string
-    const stackName = `${projectName}-${stackPrefix}-${stackSuffix}-${randomString}`;
+    const randomString = ""
+    const stackName = `${projectName}-${stackPrefix}-${stackSuffix}`;
+    if (isCiBuild) {
+        randomString = `${Math.random().toString(36).substring(2, 7)}`;
+        stackName = `${projectName}-${stackPrefix}-${stackSuffix}-${randomString}`
+    }
+
     core.debug(`Generated stack name: ${stackName}`);
     core.debug(`Generated random string: ${randomString}`);
     core.debug(`Template path: ${templatePath}`);
