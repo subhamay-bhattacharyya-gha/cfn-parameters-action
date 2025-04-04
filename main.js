@@ -60,7 +60,7 @@ function run() {
     core.setOutput("parameters", formattedParams);
     core.setOutput("stack-name", stackName);
     core.setOutput("template-path", templatePath);
-    core.setOutput("ci-build-identifier", randomString);
+    core.setOutput("ci-build-identifier", `-${randomString}`);
   } catch (error) {
     core.setFailed(error.message);
   }
