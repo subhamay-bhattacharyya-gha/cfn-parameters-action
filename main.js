@@ -16,12 +16,12 @@ function run() {
     const templatePath = configData["template-path"];
     let randomString = "";
     let stackName = `${projectName}-${stackPrefix}-${stackSuffix}`;
-    let defaultParams = `ParameterKey=ProjectName,ParameterValue=${projectName} \\`;
+    let defaultParams = `ParameterKey=ProjectName,ParameterValue=${projectName}`;
 
     if (isCiBuild) {
       randomString = `${Math.random().toString(36).substring(2, 7)}`;
       stackName = `${projectName}-${stackPrefix}-${stackSuffix}-${randomString}`;
-      defaultParams += `\nParameterKey=CiBuild,ParameterValue=${randomString} \\`;
+      defaultParams += ` ParameterKey=CiBuild,ParameterValue=${randomString}`;
     }
 
     core.debug(`Generated stack name: ${stackName}`);
@@ -51,8 +51,8 @@ function run() {
     );
 
     formattedParams = Object.entries(flatParams)
-      .map(([key, value]) => `ParameterKey=${key},ParameterValue=${value} \\`)
-      .join("\n");
+      .map(([key, value]) => `ParameterKey=${key},ParameterValue=${value}`)
+      .join(" ");
 
     formattedParams += `\n${defaultParams}`;
     console.log("Generated Parameters:\n" + formattedParams);
