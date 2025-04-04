@@ -21,7 +21,7 @@ function run() {
     if (isCiBuild) {
       randomString = `${Math.random().toString(36).substring(2, 7)}`;
       stackName = `${projectName}-${stackPrefix}-${stackSuffix}-${randomString}`;
-      defaultParams += `\nParameterKey=CiBuild,ParameterValue=${randomString}`;
+      defaultParams += ` ParameterKey=CiBuild,ParameterValue=${randomString}`;
     }
 
     core.debug(`Generated stack name: ${stackName}`);
@@ -52,15 +52,15 @@ function run() {
 
     formattedParams = Object.entries(flatParams)
       .map(([key, value]) => `ParameterKey=${key},ParameterValue=${value}`)
-      .join("\n");
+      .join(" ");
 
-    formattedParams += `\n${defaultParams}`;
+    formattedParams += ` ${defaultParams}`;
     console.log("Generated Parameters:\n" + formattedParams);
 
     core.setOutput("parameters", formattedParams);
     core.setOutput("stack-name", stackName);
     core.setOutput("template-path", templatePath);
-    core.setOutput("ci-build-identifier", randomString);
+    core.setOutput("ci-build-identifier", `-${randomString}`);
   } catch (error) {
     core.setFailed(error.message);
   }
