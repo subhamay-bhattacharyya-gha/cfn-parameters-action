@@ -1,3 +1,4 @@
+const fs = require('fs');
 const core = require("@actions/core");
 
 function run() {
@@ -14,10 +15,19 @@ function run() {
     const templatePath = configData["template-path"];
     const randomString = Math.random().toString(36).substring(2, 7); // Generate random string
     const stackName = `${projectName}-${stackPrefix}-${stackSuffix}-${randomString}`;
-    console.log("Stack Name: " + stackName);
-    console.log("Template Path: " + templatePath);
-    console.log("Environment: " + environment);
-    console.log("Random String: " + randomString);
+    core.debug(`Generated stack name: ${stackName}`);
+    core.debug(`Generated random string: ${randomString}`);
+    core.debug(`Template path: ${templatePath}`);
+    core.debug(`Environment: ${environment}`);
+    core.debug(`Parameters for environment ${environment}: ${JSON.stringify(envParamsArray)}`);
+    core.debug(`Config data: ${JSON.stringify(configData)}`);
+    core.debug(`Project name: ${projectName}`);
+    core.debug(`Stack prefix: ${stackPrefix}`);
+    core.debug(`Stack suffix: ${stackSuffix}`);
+    core.debug(`Stack name: ${stackName}`);
+    core.debug(`Template path: ${templatePath}`);
+
+
 
     if (!envParamsArray || !Array.isArray(envParamsArray)) {
       throw new Error(`No parameters found for environment: ${environment}`);
