@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require("fs");
 const core = require("@actions/core");
 
 function run() {
@@ -14,26 +14,31 @@ function run() {
     const stackPrefix = configData["stack-prefix"];
     const stackSuffix = configData["stack-suffix"];
     const templatePath = configData["template-path"];
-    let randomString = ""
+    let randomString = "";
     let stackName = `${projectName}-${stackPrefix}-${stackSuffix}`;
+    let defaultParams = `ParameterKey=ProjectName,ParameterValue=${projectName}`;
+
     if (isCiBuild) {
-        randomString = `${Math.random().toString(36).substring(2, 7)}`;
-        stackName = `${projectName}-${stackPrefix}-${stackSuffix}-${randomString}`
+      randomString = `${Math.random().toString(36).substring(2, 7)}`;
+      stackName = `${projectName}-${stackPrefix}-${stackSuffix}-${randomString}`;
+      defaultParams += `\nParameterKey=CiBuild,ParameterValue=${randomString}`;
     }
 
     core.debug(`Generated stack name: ${stackName}`);
     core.debug(`Generated random string: ${randomString}`);
     core.debug(`Template path: ${templatePath}`);
     core.debug(`Environment: ${environment}`);
-    core.debug(`Parameters for environment ${environment}: ${JSON.stringify(envParamsArray)}`);
+    core.debug(
+      `Parameters for environment ${environment}: ${JSON.stringify(
+        envParamsArray
+      )}`
+    );
     core.debug(`Config data: ${JSON.stringify(configData)}`);
     core.debug(`Project name: ${projectName}`);
     core.debug(`Stack prefix: ${stackPrefix}`);
     core.debug(`Stack suffix: ${stackSuffix}`);
     core.debug(`Stack name: ${stackName}`);
     core.debug(`Template path: ${templatePath}`);
-
-
 
     if (!envParamsArray || !Array.isArray(envParamsArray)) {
       throw new Error(`No parameters found for environment: ${environment}`);
@@ -45,10 +50,11 @@ function run() {
       {}
     );
 
-    const formattedParams = Object.entries(flatParams)
+    formattedParams = Object.entries(flatParams)
       .map(([key, value]) => `ParameterKey=${key},ParameterValue=${value}`)
       .join("\n");
 
+    formattedParams += `\n${defaultParams}`;
     console.log("Generated Parameters:\n" + formattedParams);
 
     core.setOutput("parameters", formattedParams);
