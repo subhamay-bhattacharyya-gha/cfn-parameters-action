@@ -19,6 +19,8 @@ outputs:
     description: 'Formatted CloudFormation parameters as multiline string'
   stack-name:
     description: 'Stack name for the given environment'
+  template-path:
+    description: 'Template name including path for the given environment'
   ci-build-identifier:
     description: 'CI build identifier for the given environment'
 
